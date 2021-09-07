@@ -1,0 +1,47 @@
+:root {
+  --secundary-bc-color: #5146b9;
+  --secundary-font-color: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p {
+  margin: 0;
+}
+
+.secundary-fc-color {
+  color: var(--secundary-font-color);
+}
+
+.page-header {
+  top: 0;
+  left: 0;
+  background-color: var(--secundary-bc-color);
+}
+
+.page-logo-container {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--secundary-font-color);
+}
+
+.page-logo {
+  font-size: 12px;
+  word-wrap: break-word;
+  text-align: center;
+  margin: 0 !important;
+}
+
+.nav-item {
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  color: var(--secundary-font-color);
+}
