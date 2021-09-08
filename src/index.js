@@ -4,6 +4,11 @@ import '@fortawesome/fontawesome-free/js/solid.js';
 import '@fortawesome/fontawesome-free/js/regular.js';
 import '@fortawesome/fontawesome-free/js/brands.js';
 import './styles.css';
-import UI from './modules/UserInterface.js';
+import popularShows from './modules/getShows.js';
+import { imageListener, renderShows } from './modules/userInterface.js';
 
-UI.displayModal(Math.floor(Math.random() * (239)) + 1);
+document.addEventListener('DOMContentLoaded', async () => {
+  popularShows().then((result) => {
+    renderShows(result);
+  }).then(() => imageListener());
+});

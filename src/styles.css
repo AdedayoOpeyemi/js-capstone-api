@@ -3,6 +3,8 @@
   --secundary-font-color: #fff;
   --modal-bc-color: #000000fb;
   --modal-bc-info: #fff;
+  --primary-show-bc-color: red;
+  --primary-show-font-color: #001011;
 }
 
 * {
@@ -58,9 +60,11 @@ h3 {
 .modal-background {
   background-color: var(--modal-bc-color);
   width: 100%;
+  height: 100%;
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 1;
-  overflow-y: scroll;
 }
 
 .modal-info {
@@ -90,4 +94,31 @@ h3 {
   bottom: 0;
   width: 100%;
   height: 2.5rem;
+}
+
+.show-card {
+  background-color: var(--primary-show-bc-color);
+  max-width: 320px;
+  color: var(--secundary-font-color);
+}
+
+.show-title {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.show-image {
+  width: 100%;
+}
+
+.button {
+  background-color: var(--primary-show-font-color);
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.75em;
+  border-radius: 5px;
 }
