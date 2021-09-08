@@ -1,5 +1,5 @@
 :root {
-  --secundary-bc-color: #5146b9;
+  --secundary-bc-color: #161616;
   --secundary-font-color: #fff;
 }
 
@@ -53,7 +53,6 @@ p {
 
 .footer {
   background-color: var(--secundary-bc-color);
-  color: var(--secundary-font-color);
   position: absolute;
   bottom: 0;
   width: 100%;
