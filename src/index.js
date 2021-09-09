@@ -5,7 +5,9 @@ import '@fortawesome/fontawesome-free/js/regular.js';
 import '@fortawesome/fontawesome-free/js/brands.js';
 import './styles.css';
 import popularShows from './modules/getShows.js';
-import { imageListener, renderShows, commentsListener, reservationListener } from './modules/userInterface.js';
+import {
+  imageListener, renderShows, commentsListener, reservationListener,
+} from './modules/userInterface.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   popularShows().then((result) => {
