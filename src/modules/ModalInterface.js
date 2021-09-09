@@ -40,7 +40,28 @@ export default class Modal {
     mainElement.appendChild(modalBackground);
   }
 
+  static #privateDisplayComments(arrayOfComments) {
+    const commentsContainer = document.getElementById('comments-container');
+    commentsContainer.innerHTML = '';
+    if (!arrayOfComments.error) {
+      arrayOfComments.forEach((comment) => {
+        commentsContainer.innerHTML += `<div class="comment-item d-flex">
+          <p class="me-1">${comment.creation_date}</p> 
+          <p class="me-1">${comment.username}:</p> 
+          <p class="me-1">${comment.comment}</p>
+        </div>`;
+      });
+    }
+  }
+
   static async displayModal(showIndex) {
+    const baseUrl = `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/72XQhn9Gt3V03aHKhtco/comments?item_id=${showIndex}`;
+    const commentsResponse = await fetch(baseUrl, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    const commentsArray = await commentsResponse.json();
     const showResponse = await fetch(`https://api.tvmaze.com/shows/${showIndex}`);
     const showJson = await showResponse.json();
     const epResponse = await fetch(`https://api.tvmaze.com/shows/${showIndex}/episodes`);
@@ -55,5 +76,6 @@ export default class Modal {
     document.querySelector('html').style.overflowY = 'hidden';
     Modal.#privateTest(imgUrl, title, genres, episodes, status, summary);
     Modal.#privateCloseModal();
+    Modal.#privateDisplayComments(commentsArray);
   }
 }
