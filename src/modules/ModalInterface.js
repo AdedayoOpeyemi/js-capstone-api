@@ -47,7 +47,7 @@ export default class Modal {
      <p id="status" class="modal-info-item mb-2">Status: <b>${status}</b></p>
      <p id="summary" class="modal-info-item mb-2">${summary}</p>
    </div>
-    <h3 class="modal-auxiliar-titles mb-3">Comments</h3>
+    <h3 id="modal-comments-title" class="modal-auxiliar-titles mb-3">Comments</h3>
    <div id="comments-container" class="d-flex flex-column mb-3">
    </div>
    <h3 class="modal-auxiliar-titles mb-3">Add a comment</h3>
@@ -62,10 +62,22 @@ export default class Modal {
     mainElement.appendChild(modalBackground);
   }
 
+  static #privateUpdateCommentsCounter(commentsNumber) {
+    const commentTitle = document.getElementById('modal-comments-title');
+    commentTitle.innerText = `Comments(${commentsNumber})`;
+  }
+
   static async #privateDisplayComments(arrayOfComments, showIndex) {
     if (!arrayOfComments) {
       arrayOfComments = await Modal.#privateGetComments(showIndex);
     }
+
+    if (arrayOfComments.length === 1 && arrayOfComments[0].username === 'No Comments Yet') {
+      Modal.#privateUpdateCommentsCounter(0);
+    } else {
+      Modal.#privateUpdateCommentsCounter(arrayOfComments.length);
+    }
+
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     if (arrayOfComments) {
