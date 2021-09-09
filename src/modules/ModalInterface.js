@@ -62,9 +62,16 @@ export default class Modal {
     mainElement.appendChild(modalBackground);
   }
 
-  static #privateUpdateCommentsCounter(commentsNumber) {
+  static #privateUpdateCommentsCounter() {
+    const commentsContainer = document.getElementById('comments-container');
+    const allComments = commentsContainer.children;
     const commentTitle = document.getElementById('modal-comments-title');
-    commentTitle.innerText = `Comments(${commentsNumber})`;
+
+    if (allComments.length === 1 && allComments[0].children[1].value === 'No Comments Yet') {
+      commentTitle.innerText = `Comments(${0})`;
+    } else {
+      commentTitle.innerText = `Comments(${allComments.length})`;
+    }
   }
 
   static async #privateDisplayComments(arrayOfComments, showIndex) {
@@ -72,12 +79,7 @@ export default class Modal {
       arrayOfComments = await Modal.#privateGetComments(showIndex);
     }
 
-    if (arrayOfComments.length === 1 && arrayOfComments[0].username === 'No Comments Yet') {
-      Modal.#privateUpdateCommentsCounter(0);
-    } else {
-      Modal.#privateUpdateCommentsCounter(arrayOfComments.length);
-    }
-
+    Modal.#privateUpdateCommentsCounter();
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     if (arrayOfComments) {
