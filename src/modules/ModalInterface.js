@@ -4,6 +4,7 @@ export default class Modal {
     if (elementToRemove) {
       document.querySelector('.close-icon').addEventListener('click', () => {
         elementToRemove.remove();
+        document.querySelector('html').style.overflowY = 'scroll';
       });
     }
   }
@@ -11,7 +12,7 @@ export default class Modal {
   static #privateTest(imgUrl, title, genres, episodes, status, summary) {
     const mainElement = document.getElementById('main-content');
     const modalBackground = document.createElement('div');
-    modalBackground.className = 'modal-background d-flex justify-content-center';
+    modalBackground.className = 'modal-background d-flex flex-column align-items-center';
 
     modalBackground.innerHTML = `<div class="modal-container position-relative">
    <div class="modal-info d-flex flex-column align-items-center p-4 mx-auto my-2 position-relative">
@@ -35,6 +36,7 @@ export default class Modal {
    </form>
    </div>
   </div>`;
+    modalBackground.innerHTML += '<span class="spacer p-2">a</span>';
     mainElement.appendChild(modalBackground);
   }
 
@@ -50,6 +52,7 @@ export default class Modal {
     const title = showJson.name;
     const { status } = showJson;
     const { summary } = await showJson;
+    document.querySelector('html').style.overflowY = 'hidden';
     Modal.#privateTest(imgUrl, title, genres, episodes, status, summary);
     Modal.#privateCloseModal();
   }

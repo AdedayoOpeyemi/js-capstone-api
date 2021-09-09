@@ -11,10 +11,10 @@ const createShowCard = (show) => `<div class="col">
         <span></span>
       </div>
       <div class="mb-3 mx-auto">
-        <button class="mx-auto p-2 button" data-show-id=${show.id} data-show-name=${show.name}>Comments</button>
+        <button class="comments-btn mx-auto p-2 button" data-show-id=${show.id} data-show-name=${show.name}>Comments</button>
       </div>
       <div class="mb-3 mx-auto">
-        <button class="mx-auto p-2 button" data-show-id=${show.id} data-show-name=${show.name}>Reservation</button>
+        <button class="reservation-btn mx-auto p-2 button" data-show-id=${show.id} data-show-name=${show.name}>Reservation</button>
       </div>
     </div>
   </div>
@@ -37,6 +37,28 @@ export const imageListener = () => {
     images.forEach((image) => {
       image.addEventListener('click', () => {
         Modal.displayModal(image.dataset.showId);
+      });
+    });
+  }
+};
+
+export const commentsListener = () => {
+  const comments = document.querySelectorAll('.comments-btn');
+  if (comments) {
+    comments.forEach((button) => {
+      button.addEventListener('click', () => {
+        Modal.displayModal(button.dataset.showId);
+      });
+    });
+  }
+};
+
+export const reservationListener = () => {
+  const reservations = document.querySelectorAll('.reservation-btn');
+  if (reservations) {
+    reservations.forEach((button) => {
+      button.addEventListener('click', () => {
+        Modal.displayModal(button.dataset.showId);
       });
     });
   }
