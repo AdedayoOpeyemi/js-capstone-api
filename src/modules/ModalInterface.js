@@ -8,9 +8,9 @@ export default class Modal {
     }).then((response) => {
       if (response.status >= 400 && response.status < 600) {
         const result = [{
-          username: 'No Comments Yet',
+          username: '',
           creation_date: '',
-          comment: '',
+          comment: 'No comments Yet',
         }];
         return result;
       }
@@ -65,12 +65,12 @@ export default class Modal {
   static #privateUpdateCommentsCounter() {
     const commentsContainer = document.getElementById('comments-container');
     const allComments = commentsContainer.children;
+    const numberOfComments = commentsContainer.children.length;
     const commentTitle = document.getElementById('modal-comments-title');
-
-    if (allComments.length === 1 && allComments[0].children[1].value === 'No Comments Yet') {
+    if (numberOfComments === 1 && allComments[0].children[2].innerText === 'No comments Yet') {
       commentTitle.innerText = `Comments(${0})`;
     } else {
-      commentTitle.innerText = `Comments(${allComments.length})`;
+      commentTitle.innerText = `Comments(${numberOfComments})`;
     }
   }
 
@@ -79,18 +79,27 @@ export default class Modal {
       arrayOfComments = await Modal.#privateGetComments(showIndex);
     }
 
-    Modal.#privateUpdateCommentsCounter();
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     if (arrayOfComments) {
       arrayOfComments.forEach((comment) => {
-        commentsContainer.innerHTML += `<div class="comment-item d-flex">
+        if (comment.username) {
+          commentsContainer.innerHTML += `<div class="comment-item d-flex">
           <p class="me-1">${comment.creation_date}</p> 
           <p class="me-1">${comment.username}:</p> 
           <p class="me-1">${comment.comment}</p>
-        </div>`;
+          </div>`;
+        } else {
+          commentsContainer.innerHTML += `<div class="comment-item d-flex">
+          <p class="me-1">${comment.creation_date}</p> 
+          <p class="me-1">${comment.username}</p> 
+          <p class="me-1">${comment.comment}</p>
+          </div>`;
+        }
       });
     }
+
+    Modal.#privateUpdateCommentsCounter();
   }
 
   static async #privatePostComment(id, name, newComment) {
