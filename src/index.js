@@ -11,12 +11,12 @@ import {
 } from './modules/userInterface.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const [allShows, allLikes] = await Promise.all([popularShows(), getLikes()])
+  const [allShows, allLikes] = await Promise.all([popularShows(), getLikes()]);
 
   renderShows(allShows, allLikes)
-  .then(() => {
-    imageListener();
-    commentsListener();
-    reservationListener();
-  })
+    .then(() => {
+      imageListener();
+      commentsListener();
+      reservationListener();
+    });
 });

@@ -24,6 +24,12 @@ const createShowCard = (show, likes) => `<div class="col">
   </div>
 </div>`;
 
+function finder(likesData) {
+  return likesData.item_id === this.toString();
+}
+
+const printLike = (data, id) => data.find(finder, id);
+
 const addShowToPage = (show, likes) => {
   const showCardHolder = document.querySelector('#show-card-holder');
   showCardHolder.innerHTML += createShowCard(show, likes);
@@ -31,27 +37,11 @@ const addShowToPage = (show, likes) => {
 
 export const renderShows = async (shows, allLikes) => {
   shows.forEach((show) => {
-    const noOfLikes = printLike(allLikes, show.id)
-    let showLikes = noOfLikes === undefined ? 0 : noOfLikes.likes;
-    addShowToPage(show, showLikes );
+    const noOfLikes = printLike(allLikes, show.id);
+    const showLikes = noOfLikes === undefined ? 0 : noOfLikes.likes;
+    addShowToPage(show, showLikes);
   });
 };
-
-const printLike = (data, id) => {
-  return data.find(finder, id )
-}
-
-const getLikes = async () => {
-  const response = await fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/9j4T0EvloyUNWKzzonxh/likes/');
-  const data = response.json()
-  console.log(data)
-  return data;
-};
-
-
-function finder(likesData) {
-  return likesData.item_id == this;
-}
 
 export const imageListener = () => {
   const images = document.querySelectorAll('.show-image');

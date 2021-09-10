@@ -13,9 +13,8 @@
 
 const getLikes = async () => {
   const response = await fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/9j4T0EvloyUNWKzzonxh/likes/');
-  const data = await response.json()
-  console.log(data)
+  const data = await response.json();
   return data;
 };
 
-export { getLikes as default }
+export { getLikes as default };
