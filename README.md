@@ -1,1 +1,2 @@
-# js-capstone-api
+# Javascrip Capstone Project
+
