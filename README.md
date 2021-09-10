@@ -3,6 +3,8 @@
 TV Show App is a an application that displays details of TV Shows which are retrieved using API callls from [TV Maze API](https://www.tvmaze.com/api).
 Users of the App can like a show or comment on the show and this user interactions are stored via API calls to [Microverse-Involvement-API](https://www.notion.so/Involvement-API-869e60b5ad104603aa6db59e08150270). Primarily involves making API calls and running functions asynchronously.
 
+[Live Version](https://lucid-brown-468e51.netlify.app/)
+
 ![Presentation of App](https://www.loom.com/share/ce4e77dd1df341fdbb75a516006dc187?sharedAppSource=personal_library)
 
 ![Desktop View](./images/desktopview.png)
