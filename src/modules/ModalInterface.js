@@ -1,4 +1,26 @@
 export default class Modal {
+  static async #privateGetComments(showIndex) {
+    const baseUrl = `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/9j4T0EvloyUNWKzzonxh/comments?item_id=${showIndex}`;
+    const commentsResponse = await fetch(baseUrl, {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }).then((response) => {
+      if (response.status >= 400 && response.status < 600) {
+        const result = [{
+          username: '',
+          creation_date: '',
+          comment: 'No comments Yet',
+        }];
+        return result;
+      }
+      return response.json();
+    });
+
+    const commentsArray = await commentsResponse;
+    return commentsArray;
+  }
+
   static #privateCloseModal() {
     const elementToRemove = document.querySelector('.modal-background');
     if (elementToRemove) {
@@ -9,7 +31,7 @@ export default class Modal {
     }
   }
 
-  static #privateTest(imgUrl, title, genres, episodes, status, summary) {
+  static #privateCreateModal(showIndex, imgUrl, title, genres, episodes, status, summary) {
     const mainElement = document.getElementById('main-content');
     const modalBackground = document.createElement('div');
     modalBackground.className = 'modal-background d-flex flex-column align-items-center';
@@ -25,14 +47,14 @@ export default class Modal {
      <p id="status" class="modal-info-item mb-2">Status: <b>${status}</b></p>
      <p id="summary" class="modal-info-item mb-2">${summary}</p>
    </div>
-    <h3 class="modal-auxiliar-titles mb-3">Comments</h3>
+    <h3 id="modal-comments-title" class="modal-auxiliar-titles mb-3">Comments</h3>
    <div id="comments-container" class="d-flex flex-column mb-3">
    </div>
    <h3 class="modal-auxiliar-titles mb-3">Add a comment</h3>
-   <form action="submit" class="d-flex flex-column">
+   <form action="submit" class="comments-form-container d-flex flex-column"  data-show-id=${showIndex}>
      <input type="text" class="modal-input mb-2" placeholder="Your Name"/>
      <textarea class="modal-textarea mb-2" placeholder="Your comment" cols="30" rows="10"></textarea>
-     <button type="submit" class="default-button mb-2">Comment</button>
+     <button type="submit" class="submit-button default-button mb-2">Comment</button>
    </form>
    </div>
   </div>`;
@@ -40,28 +62,81 @@ export default class Modal {
     mainElement.appendChild(modalBackground);
   }
 
-  static #privateDisplayComments(arrayOfComments) {
+  static #privateUpdateCommentsCounter() {
+    const commentsContainer = document.getElementById('comments-container');
+    const allComments = commentsContainer.children;
+    const numberOfComments = commentsContainer.children.length;
+    const commentTitle = document.getElementById('modal-comments-title');
+    if (numberOfComments === 1 && allComments[0].children[2].innerText === 'No comments Yet') {
+      commentTitle.innerText = `Comments(${0})`;
+    } else {
+      commentTitle.innerText = `Comments(${numberOfComments})`;
+    }
+  }
+
+  static async #privateDisplayComments(arrayOfComments, showIndex) {
+    if (!arrayOfComments) {
+      arrayOfComments = await Modal.#privateGetComments(showIndex);
+    }
+
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
-    if (!arrayOfComments.error) {
+    if (arrayOfComments) {
       arrayOfComments.forEach((comment) => {
-        commentsContainer.innerHTML += `<div class="comment-item d-flex">
+        if (comment.username) {
+          commentsContainer.innerHTML += `<div class="comment-item d-flex">
           <p class="me-1">${comment.creation_date}</p> 
           <p class="me-1">${comment.username}:</p> 
           <p class="me-1">${comment.comment}</p>
-        </div>`;
+          </div>`;
+        } else {
+          commentsContainer.innerHTML += `<div class="comment-item d-flex">
+          <p class="me-1">${comment.creation_date}</p> 
+          <p class="me-1">${comment.username}</p> 
+          <p class="me-1">${comment.comment}</p>
+          </div>`;
+        }
+      });
+    }
+
+    Modal.#privateUpdateCommentsCounter();
+  }
+
+  static async #privatePostComment(id, name, newComment) {
+    const response = await fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/9j4T0EvloyUNWKzzonxh/comments', {
+      method: 'POST',
+      body: JSON.stringify({
+        item_id: id,
+        username: name,
+        comment: newComment,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+
+      },
+    });
+
+    return response;
+  }
+
+  static async #privateAddNewComment(showIndex) {
+    const addNewCommentForm = document.querySelector('.comments-form-container');
+    if (addNewCommentForm) {
+      addNewCommentForm.addEventListener('submit', (e) => {
+        const nameInput = addNewCommentForm.children[0].value;
+        const commentTextArea = addNewCommentForm.children[1].value;
+        Modal.#privatePostComment(showIndex,
+          nameInput, commentTextArea)
+          .then(() => {
+            Modal.#privateDisplayComments(null, showIndex);
+          });
+        e.preventDefault();
       });
     }
   }
 
   static async displayModal(showIndex) {
-    const baseUrl = `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/72XQhn9Gt3V03aHKhtco/comments?item_id=${showIndex}`;
-    const commentsResponse = await fetch(baseUrl, {
-      headers: {
-        'Content-type': 'application/json',
-      },
-    });
-    const commentsArray = await commentsResponse.json();
+    const commentsArray = await Modal.#privateGetComments(showIndex);
     const showResponse = await fetch(`https://api.tvmaze.com/shows/${showIndex}`);
     const showJson = await showResponse.json();
     const epResponse = await fetch(`https://api.tvmaze.com/shows/${showIndex}/episodes`);
@@ -74,8 +149,9 @@ export default class Modal {
     const { status } = showJson;
     const { summary } = await showJson;
     document.querySelector('html').style.overflowY = 'hidden';
-    Modal.#privateTest(imgUrl, title, genres, episodes, status, summary);
+    Modal.#privateCreateModal(showIndex, imgUrl, title, genres, episodes, status, summary);
     Modal.#privateCloseModal();
     Modal.#privateDisplayComments(commentsArray);
+    Modal.#privateAddNewComment(showIndex);
   }
 }
