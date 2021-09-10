@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "@jest/globals": "^27.1.1",
     "bootstrap": "^5.1.1",
     "lodash": "^4.17.21"
   }

@@ -1,5 +1,5 @@
 export default class Modal {
-  static async #privateGetComments(showIndex) {
+  static async getComments(showIndex) {
     const baseUrl = `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/9j4T0EvloyUNWKzzonxh/comments?item_id=${showIndex}`;
     const commentsResponse = await fetch(baseUrl, {
       headers: {
@@ -21,7 +21,7 @@ export default class Modal {
     return commentsArray;
   }
 
-  static #privateCloseModal() {
+  static closeModal() {
     const elementToRemove = document.querySelector('.modal-background');
     if (elementToRemove) {
       document.querySelector('.close-icon').addEventListener('click', () => {
@@ -31,7 +31,7 @@ export default class Modal {
     }
   }
 
-  static #privateCreateModal(showIndex, imgUrl, title, genres, episodes, status, summary) {
+  static createModal(showIndex, imgUrl, title, genres, episodes, status, summary) {
     const mainElement = document.getElementById('main-content');
     const modalBackground = document.createElement('div');
     modalBackground.className = 'modal-background d-flex flex-column align-items-center';
@@ -62,21 +62,22 @@ export default class Modal {
     mainElement.appendChild(modalBackground);
   }
 
-  static #privateUpdateCommentsCounter() {
+  static updateCommentsCounter() {
     const commentsContainer = document.getElementById('comments-container');
     const allComments = commentsContainer.children;
     const numberOfComments = commentsContainer.children.length;
     const commentTitle = document.getElementById('modal-comments-title');
-    if (numberOfComments === 1 && allComments[0].children[2].innerText === 'No comments Yet') {
+
+    if (numberOfComments === 1 && (allComments[0].children[2].innerText || allComments[0].children[2].innerHTML) === 'No comments Yet') {
       commentTitle.innerText = `Comments(${0})`;
     } else {
       commentTitle.innerText = `Comments(${numberOfComments})`;
     }
   }
 
-  static async #privateDisplayComments(arrayOfComments, showIndex) {
+  static async displayComments(arrayOfComments, showIndex) {
     if (!arrayOfComments) {
-      arrayOfComments = await Modal.#privateGetComments(showIndex);
+      arrayOfComments = await Modal.getComments(showIndex);
     }
 
     const commentsContainer = document.getElementById('comments-container');
@@ -99,10 +100,10 @@ export default class Modal {
       });
     }
 
-    Modal.#privateUpdateCommentsCounter();
+    Modal.updateCommentsCounter();
   }
 
-  static async #privatePostComment(id, name, newComment) {
+  static async postComment(id, name, newComment) {
     const response = await fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/9j4T0EvloyUNWKzzonxh/comments', {
       method: 'POST',
       body: JSON.stringify({
@@ -119,16 +120,16 @@ export default class Modal {
     return response;
   }
 
-  static async #privateAddNewComment(showIndex) {
+  static async addNewComment(showIndex) {
     const addNewCommentForm = document.querySelector('.comments-form-container');
     if (addNewCommentForm) {
       addNewCommentForm.addEventListener('submit', (e) => {
         const nameInput = addNewCommentForm.children[0].value;
         const commentTextArea = addNewCommentForm.children[1].value;
-        Modal.#privatePostComment(showIndex,
+        Modal.postComment(showIndex,
           nameInput, commentTextArea)
           .then(() => {
-            Modal.#privateDisplayComments(null, showIndex);
+            Modal.displayComments(null, showIndex);
           });
         e.preventDefault();
       });
@@ -136,7 +137,7 @@ export default class Modal {
   }
 
   static async displayModal(showIndex) {
-    const commentsArray = await Modal.#privateGetComments(showIndex);
+    const commentsArray = await Modal.getComments(showIndex);
     const showResponse = await fetch(`https://api.tvmaze.com/shows/${showIndex}`);
     const showJson = await showResponse.json();
     const epResponse = await fetch(`https://api.tvmaze.com/shows/${showIndex}/episodes`);
@@ -149,9 +150,9 @@ export default class Modal {
     const { status } = showJson;
     const { summary } = await showJson;
     document.querySelector('html').style.overflowY = 'hidden';
-    Modal.#privateCreateModal(showIndex, imgUrl, title, genres, episodes, status, summary);
-    Modal.#privateCloseModal();
-    Modal.#privateDisplayComments(commentsArray);
-    Modal.#privateAddNewComment(showIndex);
+    Modal.createModal(showIndex, imgUrl, title, genres, episodes, status, summary);
+    Modal.closeModal();
+    Modal.displayComments(commentsArray);
+    Modal.addNewComment(showIndex);
   }
 }
