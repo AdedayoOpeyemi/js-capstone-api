@@ -6,9 +6,13 @@ const createShowCard = (show, likes) => `<div class="col">
       <img src=${show.image.medium} class="show-image" data-show-id=${show.id} data-show-name=${show.name}>
     </div>
     <div class="d-flex flex-column p-2">
-      <div class="mb-3 d-flex">
+      <div class="mb-3 d-flex justify-content-between">
         <h3 class="show-title" data-show-id=${show.id} data-show-name=${show.name}>${show.name}</h3>
-        <span>${likes}<i class="far fa-heart"></i></span>
+        <div class="d-flex flex-column likes-section">
+          <span><i class="fas fa-heart"></i></span>
+          <span>${likes} Likes</span>
+        </div>
+        
       </div>
       <div class="mb-3 mx-auto">
         <button class="comments-btn mx-auto p-2 button" data-show-id=${show.id} data-show-name=${show.name}>Comments</button>
@@ -46,8 +50,6 @@ const getLikes = async () => {
 
 
 function finder(likesData) {
-  console.log(this.toString())
-  console.log(likesData)
   return likesData.item_id == this;
 }
 
@@ -84,3 +86,13 @@ export const reservationListener = () => {
   }
 };
 
+// export const likesListener = () => {
+//   const likesButton = document.querySelectorAll('.likes-btn');
+//   if (likesButton) {
+//     likesButton.forEach((button) => {
+//       button.addEventListener('click', () => {
+//         Modal.displayModal(button.dataset.showId);
+//       });
+//     });
+//   }
+// };

@@ -126,3 +126,13 @@ h3 {
   font-size: 0.75em;
   border-radius: 5px;
 }
+
+.likes-section {
+  min-width: 64px;
+  text-align: center;
+}
+
+.fa-heart {
+  color: white;
+  font-size: 24px;
+}
