@@ -1,6 +1,8 @@
 :root {
-  --secundary-bc-color: #5146b9;
+  --secundary-bc-color: #161616;
   --secundary-font-color: #fff;
+  --modal-bc-color: #000000fb;
+  --modal-bc-info: #fff;
   --primary-show-bc-color: red;
   --primary-show-font-color: #001011;
 }
@@ -8,10 +10,12 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-p {
+p,
+h1,
+h2,
+h3 {
   margin: 0;
 }
 
@@ -28,6 +32,7 @@ p {
   top: 0;
   left: 0;
   background-color: var(--secundary-bc-color);
+  z-index: 1;
 }
 
 .page-logo-container {
@@ -53,11 +58,44 @@ p {
   color: var(--secundary-font-color);
 }
 
+.modal-background {
+  background-color: var(--modal-bc-color);
+  width: 100%;
+  height: calc(100vh + 2rem);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow-y: scroll;
+}
+
+.modal-info {
+  width: min-content;
+  background-color: var(--modal-bc-info);
+}
+
+.show-info {
+  min-width: 350px;
+}
+
+.close-icon {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  z-index: 4;
+}
+
+.span {
+  color: transparent;
+}
+
+.thumbnail-image {
+  height: 100%;
+  max-height: 350px;
+}
+
 .footer {
   background-color: var(--secundary-bc-color);
-  color: var(--secundary-font-color);
-  position: absolute;
-  bottom: 0;
   width: 100%;
   height: 2.5rem;
 }
