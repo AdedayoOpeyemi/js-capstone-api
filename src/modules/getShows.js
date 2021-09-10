@@ -4,10 +4,15 @@ const getAllShows = async () => {
   return data;
 };
 
-const popularShows = async () => {
+export const popularShows = async () => {
   const allShows = await getAllShows();
   const popularShows = await allShows.filter((show) => show.weight > 97);
   return popularShows;
 };
 
-export { popularShows as default };
+export const numberOfShows = (allShows) => {
+  const count = allShows.length;
+  return `${count} shows available`;
+};
+
+// export { popularShows, numberOfShows };

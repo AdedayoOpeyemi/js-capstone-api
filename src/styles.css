@@ -58,6 +58,14 @@ h3 {
   color: var(--secundary-font-color);
 }
 
+#total_count {
+  position: relative;
+  top: 52px;
+  font-size: 24px;
+  font-weight: 800;
+  font-style: italic;
+}
+
 .modal-background {
   background-color: var(--modal-bc-color);
   width: 100%;
