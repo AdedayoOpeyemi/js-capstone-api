@@ -123,6 +123,16 @@ h3 {
   width: 100%;
 }
 
+.show-image:hover,
+.likes-btn:hover {
+  cursor: pointer !important;
+  filter: blur(2px);
+}
+
+.likes-btn:focus {
+  color: black !important;
+}
+
 .button {
   background-color: var(--primary-show-font-color);
   border: none;

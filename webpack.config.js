@@ -8,8 +8,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      // Please change the template path!
       template: './src/index.html',
+      title: 'TV Show App',
     }),
   ],
   devtool: 'inline-source-map',
