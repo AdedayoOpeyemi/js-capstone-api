@@ -1,4 +1,5 @@
 import Modal from './ModalInterface.js';
+import { postLikes } from './interactions.js';
 
 const createShowCard = (show, likes) => `<div class="col">
   <div class="show-card mt-3 mx-auto" data-show-id=${show.id} data-show-name=${show.name}>
@@ -9,7 +10,7 @@ const createShowCard = (show, likes) => `<div class="col">
       <div class="mb-3 d-flex justify-content-between">
         <h3 class="show-title" data-show-id=${show.id} data-show-name=${show.name}>${show.name}</h3>
         <div class="d-flex flex-column likes-section">
-          <span><i class="fas fa-heart"></i></span>
+          <span class="likes-btn" data-show-id=${show.id}><i class="fas fa-heart" data-show-id=${show.id}></i></span>
           <span>${likes} Likes</span>
         </div>
         
@@ -76,13 +77,21 @@ export const reservationListener = () => {
   }
 };
 
-// export const likesListener = () => {
-//   const likesButton = document.querySelectorAll('.likes-btn');
-//   if (likesButton) {
-//     likesButton.forEach((button) => {
-//       button.addEventListener('click', () => {
-//         Modal.displayModal(button.dataset.showId);
-//       });
-//     });
-//   }
-// };
+export const likesListener = () => {
+  const likesButton = document.querySelectorAll('.likes-btn');
+  if (likesButton) {
+    likesButton.forEach((button) => {
+      button.addEventListener('click', () => {
+        postLikes(button.dataset.showId);
+        const olddata = button.nextElementSibling.innerHTML.split(' ')[0];
+        const newdata = parseInt(olddata, 10) + 1;
+        button.nextElementSibling.innerHTML = `${newdata} Likes`;
+      });
+    });
+  }
+};
+
+export const addNumberOfShows = (numberOfAllShows) => {
+  const countHolder = document.querySelector('#total_count');
+  countHolder.innerHTML = numberOfAllShows;
+};

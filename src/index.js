@@ -4,10 +4,11 @@ import '@fortawesome/fontawesome-free/js/solid.js';
 import '@fortawesome/fontawesome-free/js/regular.js';
 import '@fortawesome/fontawesome-free/js/brands.js';
 import './styles.css';
-import popularShows from './modules/getShows.js';
-import getLikes from './modules/interactions.js';
+import { popularShows, numberOfShows } from './modules/getShows.js';
+import { getLikes } from './modules/interactions.js';
 import {
-  imageListener, renderShows, commentsListener, reservationListener,
+  imageListener, renderShows, commentsListener, reservationListener, 
+  likesListener, addNumberOfShows,
 } from './modules/userInterface.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -18,5 +19,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       imageListener();
       commentsListener();
       reservationListener();
+      likesListener();
+      const output = numberOfShows(allShows);
+      addNumberOfShows(output);
     });
 });
