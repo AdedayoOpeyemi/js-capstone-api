@@ -14,5 +14,3 @@ export const numberOfShows = (allShows) => {
   const count = allShows.length;
   return `${count} shows available`;
 };
-
-// export { popularShows, numberOfShows };

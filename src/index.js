@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   renderShows(allShows, allLikes)
     .then(() => {
+      console.log(allShows)
       imageListener();
       commentsListener();
       reservationListener();
