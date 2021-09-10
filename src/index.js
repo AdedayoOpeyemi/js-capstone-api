@@ -7,7 +7,7 @@ import './styles.css';
 import { popularShows, numberOfShows } from './modules/getShows.js';
 import { getLikes } from './modules/interactions.js';
 import {
-  imageListener, renderShows, commentsListener, reservationListener, 
+  imageListener, renderShows, commentsListener, reservationListener,
   likesListener, addNumberOfShows,
 } from './modules/userInterface.js';
 
