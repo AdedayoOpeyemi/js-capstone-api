@@ -14,7 +14,7 @@ import {
 document.addEventListener('DOMContentLoaded', async () => {
   const [allShows, allLikes] = await Promise.all([popularShows(), getLikes()]);
 
-  renderShows(allShows, allLikes)
+  renderShows(allShows, allLikes);
   imageListener();
   commentsListener();
   reservationListener();
