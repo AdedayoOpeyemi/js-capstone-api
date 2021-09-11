@@ -5,7 +5,7 @@ Users of the App can like a show or comment on the show and this user interactio
 
 [Live Version](https://lucid-brown-468e51.netlify.app/)
 
-![Presentation of App](https://www.loom.com/share/ce4e77dd1df341fdbb75a516006dc187?sharedAppSource=personal_library)
+![Presentation of App](https://www.loom.com/share/1486008ae28443ba8d1fe5fd65276854)
 
 ![Desktop View](./images/desktopview.png)
 

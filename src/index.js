@@ -15,12 +15,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const [allShows, allLikes] = await Promise.all([popularShows(), getLikes()]);
 
   renderShows(allShows, allLikes)
-    .then(() => {
-      imageListener();
-      commentsListener();
-      reservationListener();
-      likesListener();
-      const output = numberOfShows(allShows);
-      addNumberOfShows(output);
-    });
+  imageListener();
+  commentsListener();
+  reservationListener();
+  likesListener();
+  const output = numberOfShows(allShows);
+  addNumberOfShows(output);
 });
